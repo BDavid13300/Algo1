@@ -23,16 +23,58 @@ readWord(FileReader Fichier){
 }
 
 walkDirectory(dirName,void action(String path)) async{
-  print(Directory.current);
-  var ReadDir = Directory(dirName);
-  int count = 0;
-  await for (var entity in
-  ReadDir.list(recursive: true, followLinks: false)) {
-    if(entity.path.endsWith('.txt')==true) {
-      print(entity.path);
+  var Fichier = await Directory(dirName)
+      .list(recursive: true)
+      .where((event) => event.statSync().type == FileSystemEntityType.file)
+      .map((event) => event.path).toList();
+  Fichier.forEach((element) {
+    action(element);
+  });
+  return Fichier;
+}
+
+countWord(FileReader Fichier,String Word) {
+  var count = 0;
+  while (!Fichier.isEndOfFile()){
+    var mot = readWord(Fichier);
+    if (Word == mot){
       count++;
     }
   }
-  print(count);
   return count;
+}
+
+class SearchResult{
+
+  String filename;
+  int count;
+
+  SearchResult(this.filename,this.count){
+  }
+  @override
+  String toString() {
+    return('$filename possede $count fois le mot voulu\n');
+  }
+  /*@override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is SearchResult &&
+              runtimeType == other.runtimeType &&
+              s1 == other.s1 &&
+              s2 == other.s2;
+  @override
+  int get hashCode => s1.hashCode ^ s2.hashCode;
+}*/
+}
+
+search (dir,String word) async{
+  var Resultats = [];
+  await walkDirectory(dir,(path) {
+    FileReader Fichier = FileReader(path);
+    int count = countWord(Fichier, word);
+    SearchResult Result = SearchResult(path,count);
+    if (count > 0)
+    Resultats.add(Result);
+  });
+  return Resultats;
 }

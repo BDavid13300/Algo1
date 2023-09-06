@@ -4,6 +4,7 @@ import 'package:tp1/tp1/Exo3.dart' as Exo3;
 import 'package:tp1/tp1/Exo4.dart' as Exo4;
 import 'package:tp1/tp1/Exo5.dart' as Exo5;
 import 'package:tp1/tp1/Exo6.dart' as Exo6;
+import 'package:tp1/tp1/Exo7.dart' as Exo7;
 
 void main(List<String> arguments) {
   Exo1.exo1();
@@ -12,5 +13,6 @@ void main(List<String> arguments) {
   Exo4.exo4(arguments[0]);
   Exo5.exo5(arguments[0]);
   Exo6.exo6("textes");
+  Exo7.exo7("textes");
 
 }
