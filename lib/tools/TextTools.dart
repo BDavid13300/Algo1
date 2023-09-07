@@ -9,7 +9,7 @@ readWord(FileReader Fichier){
     c = Fichier.readNext();
   }
   while ((c != " ") && (c != ".") && (c != ",") && (c != ":") && (c !=
-      ";") && (c != "\n") ) {
+      ";") && (c != "\n") && (c != "(") && (c != ")") ) {
 
     s = (s + c);
     if ((Fichier.isEndOfFile())) {
@@ -53,7 +53,7 @@ class SearchResult{
   }
   @override
   String toString() {
-    return('$filename possede $count fois le mot voulu\n');
+    return('$filename Nombre: $count \n');
   }
   /*@override
   bool operator ==(Object other) =>
@@ -76,5 +76,7 @@ search (dir,String word) async{
     if (count > 0)
     Resultats.add(Result);
   });
+
+  Resultats.sort((a,b)=>b.count.compareTo(a.count));
   return Resultats;
 }
