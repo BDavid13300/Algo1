@@ -4,48 +4,53 @@ import'package:tp1/tools/FileReader.dart';
 
 
 
-class Tree{
+class Tree {
   String word;
   Tree? rightT;
   Tree? leftT;
+
   //int count = 0 ;
 
-  List result =[];
+  List<SearchResult> result = [];
 
-  Tree(this.word){}
+  Tree(this.word) {}
 
-
-  }
-
-insertInTree(Tree? T,word,filename){
-  if (T == null) {
-    return Tree(word);
-  }else {
-    if (compareIgnoreCase(word, T.word) < 0) {
-      T.rightT = insertInTree(T.rightT, word, filename);
-    } else if (compareIgnoreCase(word, T.word) > 0){
-      T.leftT = insertInTree(T.leftT, word, filename);
-    }else if (compareIgnoreCase(word, T.word) == 0){
-      int i = T.result.indexOf(filename);
-      if(i!=-1){
-          T.result[i]=T.result[i].count+1;
-      }
-      else{
-        T.result.add(filename);
-      }
-   }
-  }
-  return T;
 }
-
-
-
-walkTree(Tree? T,void action(String word))async {
-  if (T == null) {
-    return null;
-  } else {
-    walkTree(T.rightT, action);
-    action(T.word);
-    walkTree(T.leftT, action);
+  insertInTree(Tree? T, word, filename) {
+    if (T == null) {
+      Tree T = Tree(word);
+      T.result.add(SearchResult('', word, 1));
+      return T;
+    } else {
+      if (compareIgnoreCase(word, T.word) < 0) {
+        T.rightT = insertInTree(T.rightT, word, filename);
+      } else if (compareIgnoreCase(word, T.word) > 0) {
+        T.leftT = insertInTree(T.leftT, word, filename);
+      } else if (compareIgnoreCase(word, T.word) == 0) {
+        int i = T.result.length;
+        T.result.add(SearchResult('', word, (i + 1)));
+      }
+    }
+    return T;
   }
-}
+
+
+  walkTree(Tree? T, void action(String word)) async {
+    if (T == null) {
+      return null;
+    } else {
+      walkTree(T.rightT, action);
+      action(T.word);
+      walkTree(T.leftT, action);
+    }
+  }
+
+  findInTree(Tree? T, String wordF, List<SearchResult> result) async {
+    if (T != null) {
+      findInTree(T.rightT, wordF, result);
+      if ((compareIgnoreCase(T.word, wordF) == 0)) {
+        result.addAll(T.result);
+      }
+      findInTree(T.leftT, wordF, result);
+    }
+  }

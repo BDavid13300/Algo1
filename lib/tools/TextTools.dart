@@ -46,14 +46,16 @@ countWord(FileReader Fichier,String Word) {
 
 class SearchResult{
 
-  String filename;
+  String? filename;
+  String word;
   int count;
 
-  SearchResult(this.filename,this.count){
+  SearchResult(this.filename,this.word,this.count){
   }
+
   @override
   String toString() {
-    return('$filename Nombre: $count \n');
+    return('$filename Mot: $word Nombre: $count \n');
   }
   /*@override
   bool operator ==(Object other) =>
@@ -72,7 +74,7 @@ search (dir,String word) async{
   await walkDirectory(dir,(path) {
     FileReader Fichier = FileReader(path);
     int count = countWord(Fichier, word);
-    SearchResult Result = SearchResult(path,count);
+    SearchResult Result = SearchResult('',path,count);
     if (count > 0)
     Resultats.add(Result);
   });

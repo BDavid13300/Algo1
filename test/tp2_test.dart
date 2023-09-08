@@ -40,5 +40,28 @@ main () {
     tree = insertInTree(tree, "DirectDraw", "");
     tree = insertInTree(tree, "BSD", "");
     tree = insertInTree(tree, "SDL", "");
+    List<SearchResult> result = [];
+    List<SearchResult> result1 = [];
+    findInTree(tree,"Posix", result);
+    result1.add(SearchResult('',"Posix", 1));
+    String s1 = result.toString();
+    String s2 = result1.toString();
+    expect(s1,s2);
+    result = [];
+    result1 = [];
+    findInTree(tree,"BSD", result);
+    result1.add(SearchResult('',"BSD", 1));
+    result1.add(SearchResult('',"BSD", 2));
+    result1.add(SearchResult('',"BSD", 3));
+    s1 = result.toString();
+    s2 = result1.toString();
+    expect(s1,s2);
+    result = [];
+    result1 = [];
+    findInTree(tree,"OpenGL", result);
+    result1.add(SearchResult('',"OpenGL", 1));
+    s1 = result.toString();
+    s2 = result1.toString();
+    expect(s1,s2);
   });
 }
