@@ -7,15 +7,14 @@ class Index{
   Tree? T ;
 
   build(dir) async {
-    walkDirectory(dir, (path) {
+    await walkDirectory(dir, (path) {
       FileReader file = FileReader(path);
       while (!file.isEndOfFile()) {
         String? word = readWord(file);
         if (word != null )
-          insertInTree(T, word, path);
+          T = insertInTree(T, word, path);
       }
     });
-
   }
 
   find(String word){
